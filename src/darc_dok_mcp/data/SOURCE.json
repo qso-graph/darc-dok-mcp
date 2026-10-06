@@ -1,0 +1,29 @@
+{
+  "title": "DARC DOKs and special DOKs",
+  "schema": "darc_dok",
+  "owner": "Deutscher Amateur-Radio-Club e.V. (DARC)",
+  "document_title": "DOK-Liste (DARC DX-Referat, by DL2ABM) and the special-DOK list SDOK_List.csv (DARC SDOK-Referat)",
+  "document": "DOK-Liste.pdf, SDOK_List.csv",
+  "edition": "DOK-Liste 2016-12-26; special DOKs as retrieved",
+  "url": "https://www.darc.de/",
+  "authority": "DARC issues DOKs (Distrikts-Ortsverbands-Kenner) to its local clubs and special DOKs for events; they are used for DARC's DLD award, the DOK best-lists and the WAG contest. ADIF: 'DARC provides two different lists - one for DOKs and one for Special DOKs.'",
+  "terms": "DARC states no reuse terms for either list. Shipped unchanged and credited to DARC; this package's licence does not cover them.",
+  "adif_version": "3.1.7",
+  "published": {
+    "DOK-Liste.pdf": {
+      "url": "https://www.darc.de/fileadmin/filemounts/referate/dx/DOK-Liste.pdf",
+      "retrieved": "2026-10-06",
+      "sha256": "e853684c0bd90d4fff0006a70018ee9205a12bcd50cd0af0f45c18600fbe0fb3"
+    },
+    "SDOK_List.csv": {
+      "url": "https://www.darc.de/fileadmin/filemounts/referate/sdok/SDOK_List.csv",
+      "retrieved": "2026-10-06",
+      "sha256": "da5e65b399979de627fb97e7a03839ee928e92b99b04ac85a80c979a32821c90"
+    }
+  },
+  "facts": [
+    "darc_dok.json",
+    "darc_special_dok.json"
+  ],
+  "derived_note": "derived/by_district.json (ours): DARC district -> DOKs, built from the facts. Special-DOK dates are DARC's dd.mm.yy, read as 19yy for yy >= 50 and 20yy below."
+}
