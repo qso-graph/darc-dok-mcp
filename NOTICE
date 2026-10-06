@@ -1,0 +1,23 @@
+darc-dok-mcp
+Copyright (C) Greg Beam, KI7MT, and contributors.
+Licensed under the GNU General Public License v3.0 or later (see LICENSE).
+
+Third-party material: DARC's DOK lists
+--------------------------------------
+
+The facts this package serves come from the Deutscher Amateur-Radio-Club e.V. (DARC)'s DOK lists:
+- DOK-Liste.pdf, DARC DX-Referat, by Karsten Radwan, DL2ABM, dated 26.12.2016
+  (https://www.darc.de/fileadmin/filemounts/referate/dx/DOK-Liste.pdf);
+- SDOK_List.csv, DARC SDOK-Referat
+  (https://www.darc.de/fileadmin/filemounts/referate/sdok/SDOK_List.csv).
+
+The owner's document is NOT included in this package or its repository. It is referenced by URL,
+and data/SOURCE.json records the date it was retrieved and its SHA-256, so anyone can fetch the
+same document and check the facts against it (scripts/fetch_published.py does that for developers).
+
+data/facts/darc_dok.json and darc_special_dok.json hold the lists' rows as facts, each citing its
+page or row. The definitions are the owner's; this project's GPL-3.0-or-later licence covers our own
+code and files, not the owner's material, and we claim no rights in it.
+
+Ours, labelled as ours: data/SOURCE.json, data/owner-list.schema.json, data/derived/ (built from the
+facts) and data/load.sql (generated).
