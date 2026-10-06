@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://qso-graph.io/schemas/owner-list/1.json",
+  "title": "QSO Graph owner list (QG Reference)",
+  "description": "One owner's published list of codes (CQ zones, ITU zones, DARC DOKs), as facts transcribed from the owner's document. Every record cites where it appears in that document. The same shape for every owner list; see qso-graph-devel planning/QSO-GRAPH-REFERENCE-DATA.md section 5.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["list", "owner", "document", "edition", "records"],
+  "properties": {
+    "list": {"type": "string", "pattern": "^[a-z][a-z0-9_]*$", "description": "e.g. cq_zones, itu_zones, darc_dok, darc_special_dok"},
+    "owner": {"type": "string"},
+    "document": {"type": "string", "description": "The owner's document these facts come from (its file name in published/)"},
+    "edition": {"type": "string", "description": "The document's own date or version"},
+    "records": {"type": "array", "items": {"$ref": "#/$defs/record"}}
+  },
+  "$defs": {
+    "record": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["code", "name", "valid_from", "valid_to", "replaced_by", "covers", "source"],
+      "properties": {
+        "code": {"type": "string", "minLength": 1, "description": "The owner's code, as published"},
+        "name": {"type": ["string", "null"], "description": "The owner's name for the code, as published"},
+        "valid_from": {"type": ["string", "null"], "format": "date"},
+        "valid_to": {"type": ["string", "null"], "format": "date"},
+        "replaced_by": {"type": ["string", "null"], "description": "A code this one was merged into or replaced by, when the owner says so"},
+        "covers": {"type": "array", "items": {"$ref": "#/$defs/cover"}},
+        "attributes": {
+          "type": "object",
+          "description": "List-specific columns as the owner publishes them (e.g. a DOK's district and club)",
+          "additionalProperties": {"type": ["string", "null"]}
+        },
+        "source": {"type": "string", "minLength": 1, "description": "Where this record appears in the owner's document"},
+        "transcription_note": {"type": "string", "description": "Ours: a note on reading the owner's text (e.g. an evident typo kept as published)"}
+      }
+    },
+    "cover": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dxcc", "pas", "prefix", "boundary"],
+      "properties": {
+        "dxcc": {"type": ["integer", "null"], "minimum": 0, "description": "ADIF DXCC_Entity_Code"},
+        "pas": {"type": ["string", "null"], "description": "ADIF Primary_Administrative_Subdivision code, when the owner names one"},
+        "prefix": {"type": ["string", "null"], "description": "The prefix as the owner writes it"},
+        "boundary": {"type": ["string", "null"], "description": "The owner's own wording for a partial area (e.g. 'north of the 50th parallel')"}
+      }
+    }
+  }
+}
