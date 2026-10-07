@@ -68,6 +68,14 @@ def sql_str(v) -> str:
     return "'" + str(v).replace("'", "''") + "'"
 
 
+def authority_note(source: dict) -> str:
+    """Said in the database itself, for anyone joining this schema with ADIF's tables."""
+    return (f"{source['title']} as {source['owner']} publishes them ({source['document_title']}, "
+            f"edition {source['edition']}). The owner is the authority for this list: where ADIF's "
+            "tables also carry a value for it (e.g. the CQ Zone or ITU Zone columns of "
+            "adif.primary_administrative_subdivision), this schema is the answer and ADIF's is a copy.")
+
+
 def load_sql(source: dict, facts: dict[str, dict]) -> str:
     s = source["schema"]
     adif = source["adif_version"]
@@ -82,6 +90,8 @@ def load_sql(source: dict, facts: dict[str, dict]) -> str:
         "BEGIN;",
         f"DROP SCHEMA IF EXISTS {s} CASCADE;",
         f"CREATE SCHEMA {s};",
+        # Which source wins (qso-graph-devel#56): the owner is the authority for its own list.
+        f"COMMENT ON SCHEMA {s} IS {sql_str(authority_note(source))};",
         "",
         "-- Where every fact here came from: SOURCE.json (owner, document URL, SHA-256).",
         f"CREATE TABLE {s}.source (",
@@ -141,6 +151,9 @@ def load_sql(source: dict, facts: dict[str, dict]) -> str:
                     f"{sql_str(c['prefix'])}, {sql_str(c['boundary'])});"
                 )
     out += [
+        "",
+        f"COMMENT ON TABLE {s}.code IS {sql_str('Codes as the owner publishes them. ' + authority_note(source))};",
+        f"COMMENT ON TABLE {s}.cover IS {sql_str('What each code covers, in ADIF codes; boundary is the owner wording. ' + authority_note(source))};",
         "",
         "DO $$ BEGIN IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'ionis_ro') THEN",
         f"  GRANT USAGE ON SCHEMA {s} TO ionis_ro;",

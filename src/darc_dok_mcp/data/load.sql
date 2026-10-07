@@ -8,6 +8,7 @@
 BEGIN;
 DROP SCHEMA IF EXISTS darc_dok CASCADE;
 CREATE SCHEMA darc_dok;
+COMMENT ON SCHEMA darc_dok IS 'DARC DOKs and special DOKs as Deutscher Amateur-Radio-Club e.V. (DARC) publishes them (DOK-Liste (DARC DX-Referat, by DL2ABM) and the special-DOK list SDOK_List.csv (DARC SDOK-Referat), edition DOK-Liste 2016-12-26; special DOKs as retrieved). The owner is the authority for this list: where ADIF''s tables also carry a value for it (e.g. the CQ Zone or ITU Zone columns of adif.primary_administrative_subdivision), this schema is the answer and ADIF''s is a copy.';
 
 -- Where every fact here came from: SOURCE.json (owner, document URL, SHA-256).
 CREATE TABLE darc_dok.source (
@@ -7480,6 +7481,9 @@ INSERT INTO darc_dok.code VALUES ('darc_special_dok', 6235, 'ZEIL1K', '1000 Jahr
 INSERT INTO darc_dok.code VALUES ('darc_special_dok', 6236, 'ZG08', '40 Jahre Klubstation DL0ZG', '2008-01-01', '2008-12-31', NULL, '{"purpose": "40 Jahre Klubstation DL0ZG", "callsign": "DL0ZG", "valid_from_published": "01.01.08", "valid_to_published": "31.12.08", "club_dok": "O34"}'::jsonb, 'SDOK_List.csv, row 6236', NULL);
 INSERT INTO darc_dok.code VALUES ('darc_special_dok', 6237, 'ZISSEL07', 'Zissel 2007 in Kassel', '2007-08-01', '2007-09-30', NULL, '{"purpose": "Zissel 2007 in Kassel", "callsign": "DL0SGK", "valid_from_published": "01.08.07", "valid_to_published": "30.09.07", "club_dok": "F12"}'::jsonb, 'SDOK_List.csv, row 6237', NULL);
 INSERT INTO darc_dok.code VALUES ('darc_special_dok', 6238, 'ZISSEL08', 'Zissel 2008 in Kassel', '2008-05-15', '2008-09-15', NULL, '{"purpose": "Zissel 2008 in Kassel", "callsign": "DL0SGK", "valid_from_published": "15.05.08", "valid_to_published": "15.09.08", "club_dok": "F12"}'::jsonb, 'SDOK_List.csv, row 6238', NULL);
+
+COMMENT ON TABLE darc_dok.code IS 'Codes as the owner publishes them. DARC DOKs and special DOKs as Deutscher Amateur-Radio-Club e.V. (DARC) publishes them (DOK-Liste (DARC DX-Referat, by DL2ABM) and the special-DOK list SDOK_List.csv (DARC SDOK-Referat), edition DOK-Liste 2016-12-26; special DOKs as retrieved). The owner is the authority for this list: where ADIF''s tables also carry a value for it (e.g. the CQ Zone or ITU Zone columns of adif.primary_administrative_subdivision), this schema is the answer and ADIF''s is a copy.';
+COMMENT ON TABLE darc_dok.cover IS 'What each code covers, in ADIF codes; boundary is the owner wording. DARC DOKs and special DOKs as Deutscher Amateur-Radio-Club e.V. (DARC) publishes them (DOK-Liste (DARC DX-Referat, by DL2ABM) and the special-DOK list SDOK_List.csv (DARC SDOK-Referat), edition DOK-Liste 2016-12-26; special DOKs as retrieved). The owner is the authority for this list: where ADIF''s tables also carry a value for it (e.g. the CQ Zone or ITU Zone columns of adif.primary_administrative_subdivision), this schema is the answer and ADIF''s is a copy.';
 
 DO $$ BEGIN IF EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'ionis_ro') THEN
   GRANT USAGE ON SCHEMA darc_dok TO ionis_ro;
