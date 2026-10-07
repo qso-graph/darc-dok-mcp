@@ -1,6 +1,6 @@
 [project]
 name = "darc-dok-mcp"
-version = "0.1.0"
+version = "0.1.1"
 description = "DARC DOKs and special DOKs as DARC publishes them, with validity windows"
 readme = "README.md"
 license = {text = "GPL-3.0-or-later"}
