@@ -5,8 +5,9 @@
 
 The owner's files are the owner's: this package never redistributes them. data/SOURCE.json
 records each file's URL, retrieval date and SHA-256; this fetches the files for the build and
-the tests, and fails if a file no longer matches its SHA-256, which means the owner has
-published a change that needs a person to review it (planning/QSO-GRAPH-REFERENCE-DATA.md §8).
+the tests. A different SHA-256 is a warning, not a failure: owners' websites change menus and
+markup without changing the list. Whether our facts are still in the document is checked by the
+pre-release tests (planning/QSO-GRAPH-REFERENCE-DATA.md §8).
 """
 
 from __future__ import annotations
@@ -37,8 +38,11 @@ def fetch(name: str, meta: dict) -> Path:
             path.write_bytes(resp.read())
     got = hashlib.sha256(path.read_bytes()).hexdigest()
     if got != meta["sha256"]:
-        raise SystemExit(f"{name}: SHA-256 {got} does not match SOURCE.json {meta['sha256']}: "
-                         f"the owner's file has changed; review it before updating ({meta['url']})")
+        # Provenance, not a gate: websites change menus and markup without changing the list.
+        # The pre-release check that matters is that our facts are still in the document.
+        print(f"::warning title=Owner file changed::{name}: SHA-256 {got[:16]}... is not the "
+              f"{meta['sha256'][:16]}... read on {meta['retrieved']}. Check the facts still match, "
+              f"then record the new SHA-256 ({meta['url']})")
     return path
 
 

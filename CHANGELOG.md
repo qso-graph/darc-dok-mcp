@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- CI: DARC's files are fetched and checked only on the release PR (develop → main); the row-by-row checks against them are the gate. A changed SHA-256 is now a warning, not a failure.
 - `load.sql` says in the database that the owner is the authority for this list: where ADIF's tables also carry a value for it, this schema is the answer (qso-graph-devel#56).
 
 ## [0.1.0] — 2026-10-06
