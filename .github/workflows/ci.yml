@@ -52,7 +52,9 @@ jobs:
         run: uv run pytest tests/test_security.py -v
 
   sources:
-    name: sources (download, then check against them)
+    # Pre-release only: the owners' lists change about once a decade, so ordinary PRs don't fetch them.
+    name: sources (pre-release, our facts against the owner's document)
+    if: github.event_name == 'pull_request' && github.base_ref == 'main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -83,7 +85,7 @@ jobs:
             echo "FAIL: test matrix did not all succeed (result=${{ needs.test.result }})"
             exit 1
           fi
-          if [[ "${{ needs.sources.result }}" != "success" ]]; then
+          if [[ "${{ needs.sources.result }}" != "success" && "${{ needs.sources.result }}" != "skipped" ]]; then
             echo "FAIL: checks against the sources did not succeed (result=${{ needs.sources.result }})"
             exit 1
           fi

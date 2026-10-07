@@ -41,8 +41,9 @@ def test_owner_files_are_recorded_not_shipped():
 
 
 @pytest.mark.live
-def test_owner_files_still_match_their_sha256():
-    """Fetch each owner file and compare: a mismatch means the owner published a change."""
+def test_owner_files_can_be_fetched():
+    """Fetch each owner file. A changed SHA-256 is reported as a warning (fetch_published.py),
+    not a failure: the release gate is that our facts are still in the document."""
     sys.path.insert(0, str(ROOT / "scripts"))
     import fetch_published
 
