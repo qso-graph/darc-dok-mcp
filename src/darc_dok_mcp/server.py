@@ -161,8 +161,10 @@ def main() -> None:
             transport = args[i + 1]
         if arg == "--port" and i + 1 < len(args):
             port = int(args[i + 1])
+    # Written out rather than passed through: fastmcp takes a literal, and a
+    # str that happens to hold the right word is not the same thing.
     if transport == "streamable-http":
-        mcp.run(transport=transport, port=port)
+        mcp.run(transport="streamable-http", port=port)
     else:
         mcp.run(transport="stdio")
 
