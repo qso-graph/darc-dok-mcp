@@ -20,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   literal fastmcp asks for rather than a `str` that happens to hold the right word.
 - `E501` is deferred rather than adopted (qso-graph-devel#70): the lines it reports here are not
   defects, and some are long because they name a publisher's field exactly.
+- **The published contact is `maintainers@qso-graph.io`** (qso-graph-devel#69). The `authors` field
+  carried a personal address, and that field is what PyPI shows on the package page. The project
+  has had outside contributions; a project address is the fitting route for them.
 
 ## [0.1.1] — 2026-10-07
 
