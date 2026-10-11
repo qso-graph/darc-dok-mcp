@@ -5,14 +5,13 @@ from __future__ import annotations
 import csv
 import io
 import re
+import sys
 from datetime import date
 from functools import cache
 from pathlib import Path
-import sys
-
-from pypdf import PdfReader
 
 import pytest
+from pypdf import PdfReader
 
 from darc_dok_mcp import reference
 

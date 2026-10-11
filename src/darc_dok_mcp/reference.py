@@ -33,7 +33,17 @@ def _json(*parts: str) -> Any:
 class OwnerList:
     """One facts file and its indexes."""
 
-    list: str
+    # Named list_name, not list: a field called `list` shadows the builtin
+    # inside the class body, so `records: list[dict[str, Any]]` below resolved
+    # to this field subscripted rather than to the builtin. Nothing broke at
+    # run time — `from __future__ import annotations` means the strings are
+    # never evaluated — but every annotation after it was wrong, and anything
+    # that resolves them (mypy, a dataclass validator, a docs generator) saw
+    # the wrong type. Found by mypy (qso-graph-devel#66).
+    #
+    # `list_name` is what search() already calls the same thing. The `"list"`
+    # key in tool output is unchanged: that is the published field name.
+    list_name: str
     owner: str
     document: str
     edition: str
@@ -47,7 +57,11 @@ class OwnerList:
 
 @cache
 def source() -> dict[str, Any]:
-    return _json("SOURCE.json")
+    # Annotated rather than returned straight: _json returns Any, because it
+    # reads whatever JSON is in the file, and handing that back from a function
+    # that promises a dict is the promise being unchecked.
+    data: dict[str, Any] = _json("SOURCE.json")
+    return data
 
 
 @cache
