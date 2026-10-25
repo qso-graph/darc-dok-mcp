@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import asyncio
 
+import pytest
 from fastmcp import Client
+from fastmcp.exceptions import ToolError
 
 from darc_dok_mcp import server
 
@@ -44,12 +46,17 @@ def test_every_answer_names_its_source():
         assert r["source"]["owner"] and r["source"]["url"], name
 
 
-def test_bad_input_is_an_error():
-    assert "error" in call("darc_dok_lookup", {"code": "A B; DROP"})
-    assert "error" in call("darc_dok_search", {"text": "x" * 101})
-    assert "error" in call("darc_dok_codes_for", {"dxcc": 5000})
-    assert "error" in call("darc_dok_codes_for", {"dxcc": 1, "subdivision": "TOOLONG"})
-    assert "error" in call("darc_dok_valid_on", {"code": "A01", "on_date": "06.10.2026"})
+def test_bad_input_is_a_flagged_error():
+    """Rejections are flagged now, not returned as successful results (#15)."""
+    for name, args in (
+        ("darc_dok_lookup", {"code": "A B; DROP"}),
+        ("darc_dok_search", {"text": "x" * 101}),
+        ("darc_dok_codes_for", {"dxcc": 5000}),
+        ("darc_dok_codes_for", {"dxcc": 1, "subdivision": "TOOLONG"}),
+        ("darc_dok_valid_on", {"code": "A01", "on_date": "06.10.2026"}),
+    ):
+        with pytest.raises(ToolError):
+            call(name, args)
 
 
 def test_unknown_code_is_not_found():
