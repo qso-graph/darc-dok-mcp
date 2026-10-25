@@ -4,11 +4,16 @@ from __future__ import annotations
 
 import asyncio
 
+import pytest
 from fastmcp import Client
+from fastmcp.exceptions import ToolError
 
 from darc_dok_mcp import server
 
-TOOLS = {"get_version_info", "darc_dok_source_info", "darc_dok_lookup", "darc_dok_search", "darc_dok_codes_for", "darc_dok_valid_on"}
+TOOLS = {
+    "get_version_info", "darc_dok_source_info", "darc_dok_lookup",
+    "darc_dok_search", "darc_dok_codes_for", "darc_dok_valid_on",
+}
 
 
 def call(name: str, args: dict | None = None) -> dict:
@@ -37,19 +42,28 @@ def test_source_info_credits_the_owner():
 
 
 def test_every_answer_names_its_source():
-    for name, args in (("darc_dok_lookup", {"code": "A01"}), ("darc_dok_search", {"text": "Konstanz"}),
-                       ("darc_dok_codes_for", {"dxcc": 230}), ("darc_dok_valid_on", {"code": "A01", "on_date": "2026-10-06"})):
+    for name, args in (
+        ("darc_dok_lookup", {"code": "A01"}),
+        ("darc_dok_search", {"text": "Konstanz"}),
+        ("darc_dok_codes_for", {"dxcc": 230}),
+        ("darc_dok_valid_on", {"code": "A01", "on_date": "2026-10-06"}),
+    ):
         r = call(name, args)
         assert "error" not in r, (name, r)
         assert r["source"]["owner"] and r["source"]["url"], name
 
 
-def test_bad_input_is_an_error():
-    assert "error" in call("darc_dok_lookup", {"code": "A B; DROP"})
-    assert "error" in call("darc_dok_search", {"text": "x" * 101})
-    assert "error" in call("darc_dok_codes_for", {"dxcc": 5000})
-    assert "error" in call("darc_dok_codes_for", {"dxcc": 1, "subdivision": "TOOLONG"})
-    assert "error" in call("darc_dok_valid_on", {"code": "A01", "on_date": "06.10.2026"})
+def test_bad_input_is_a_flagged_error():
+    """Rejections are flagged now, not returned as successful results (#15)."""
+    for name, args in (
+        ("darc_dok_lookup", {"code": "A B; DROP"}),
+        ("darc_dok_search", {"text": "x" * 101}),
+        ("darc_dok_codes_for", {"dxcc": 5000}),
+        ("darc_dok_codes_for", {"dxcc": 1, "subdivision": "TOOLONG"}),
+        ("darc_dok_valid_on", {"code": "A01", "on_date": "06.10.2026"}),
+    ):
+        with pytest.raises(ToolError):
+            call(name, args)
 
 
 def test_unknown_code_is_not_found():

@@ -1,4 +1,5 @@
-"""The data: the owner's files recorded (not shipped), the facts valid and cited, ADIF's codes, the build current."""
+"""The data: the owner's files recorded (not shipped), the facts valid and
+cited, ADIF's codes, the build current."""
 
 from __future__ import annotations
 
@@ -23,11 +24,15 @@ SOURCE = reference.source()
 def adif() -> tuple[set[int], set[tuple[str, int]]]:
     """ADIF 3.1.7's DXCC entity codes and (subdivision, entity) pairs, from adif-mcp's copy."""
     spec = files("adif_mcp").joinpath("resources", "spec", "317")
-    ent = json.loads(spec.joinpath("enumerations_dxcc_entity_code.json").read_text(encoding="utf-8"))
-    pas = json.loads(spec.joinpath("enumerations_primary_administrative_subdivision.json").read_text(encoding="utf-8"))
-    dxcc = {int(r["Entity Code"]) for r in ent["Adif"]["Enumerations"]["DXCC_Entity_Code"]["Records"].values()}
+    ent_file = spec.joinpath("enumerations_dxcc_entity_code.json")
+    pas_file = spec.joinpath("enumerations_primary_administrative_subdivision.json")
+    ent = json.loads(ent_file.read_text(encoding="utf-8"))
+    pas = json.loads(pas_file.read_text(encoding="utf-8"))
+    entities = ent["Adif"]["Enumerations"]["DXCC_Entity_Code"]["Records"]
+    subdivisions = pas["Adif"]["Enumerations"]["Primary_Administrative_Subdivision"]
+    dxcc = {int(r["Entity Code"]) for r in entities.values()}
     subs = {(r["Code"], int(r["DXCC Entity Code"]))
-            for r in pas["Adif"]["Enumerations"]["Primary_Administrative_Subdivision"]["Records"].values()
+            for r in subdivisions["Records"].values()
             if r.get("Deleted") != "true"}
     return dxcc, subs
 
@@ -59,7 +64,8 @@ def test_source_credits_the_owner():
 @pytest.mark.parametrize("name", SOURCE["facts"])
 def test_facts_match_the_shared_schema(name):
     schema = json.loads(DATA.joinpath("owner-list.schema.json").read_text(encoding="utf-8"))
-    jsonschema.validate(json.loads(DATA.joinpath("facts", name).read_text(encoding="utf-8")), schema)
+    facts = json.loads(DATA.joinpath("facts", name).read_text(encoding="utf-8"))
+    jsonschema.validate(facts, schema)
 
 
 def test_every_record_cites_the_owners_document():
