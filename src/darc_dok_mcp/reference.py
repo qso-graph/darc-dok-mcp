@@ -4,7 +4,8 @@ The same module in every owner-list package (cq-zones-mcp, itu-zones-mcp, darc-d
 the data and its JSON Schema are the shared contract, not this code.
 
 data/
-  SOURCE.json   the owner, document, edition, terms, and each file's URL, retrieval date, SHA-256
+  SOURCE.json   the owner, document, edition, terms, and each file's URL,
+                retrieval date, SHA-256
   facts/        the facts as JSON; every record cites where it appears in the published file
   derived/      our additions, labelled as ours
 """
@@ -69,7 +70,8 @@ def lists() -> dict[str, OwnerList]:
     out: dict[str, OwnerList] = {}
     for name in source()["facts"]:
         d = _json("facts", name)
-        out[d["list"]] = OwnerList(d["list"], d["owner"], d["document"], d["edition"], d["records"])
+        out[d["list"]] = OwnerList(d["list"], d["owner"], d["document"],
+                                   d["edition"], d["records"])
     return out
 
 
@@ -96,7 +98,9 @@ def _text(r: dict[str, Any]) -> str:
     return " ".join(parts).casefold()
 
 
-def search(text: str, list_name: str | None = None, limit: int = 50) -> tuple[list[dict[str, Any]], int]:
+def search(
+    text: str, list_name: str | None = None, limit: int = 50,
+) -> tuple[list[dict[str, Any]], int]:
     """Records whose code, name, attributes, prefixes or boundaries contain every word of text.
     Returns (up to limit matches, total matches)."""
     words = [w for w in re.split(r"\s+", text.casefold().strip()) if w]

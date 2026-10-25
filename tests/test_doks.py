@@ -69,7 +69,8 @@ def test_special_doks_are_darcs_csv_row_for_row():
     recs = reference.lists()["darc_special_dok"].records
     assert len(recs) == len(rows)
     for row, r in zip(rows, recs):
-        assert r["code"] == row[0].strip() and r["attributes"]["callsign"] == (row[2].strip() or None)
+        assert r["code"] == row[0].strip()
+        assert r["attributes"]["callsign"] == (row[2].strip() or None)
         assert r["attributes"]["valid_from_published"] == (row[3].strip() or None)
 
 
