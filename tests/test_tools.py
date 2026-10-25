@@ -10,7 +10,10 @@ from fastmcp.exceptions import ToolError
 
 from darc_dok_mcp import server
 
-TOOLS = {"get_version_info", "darc_dok_source_info", "darc_dok_lookup", "darc_dok_search", "darc_dok_codes_for", "darc_dok_valid_on"}
+TOOLS = {
+    "get_version_info", "darc_dok_source_info", "darc_dok_lookup",
+    "darc_dok_search", "darc_dok_codes_for", "darc_dok_valid_on",
+}
 
 
 def call(name: str, args: dict | None = None) -> dict:
@@ -39,8 +42,12 @@ def test_source_info_credits_the_owner():
 
 
 def test_every_answer_names_its_source():
-    for name, args in (("darc_dok_lookup", {"code": "A01"}), ("darc_dok_search", {"text": "Konstanz"}),
-                       ("darc_dok_codes_for", {"dxcc": 230}), ("darc_dok_valid_on", {"code": "A01", "on_date": "2026-10-06"})):
+    for name, args in (
+        ("darc_dok_lookup", {"code": "A01"}),
+        ("darc_dok_search", {"text": "Konstanz"}),
+        ("darc_dok_codes_for", {"dxcc": 230}),
+        ("darc_dok_valid_on", {"code": "A01", "on_date": "2026-10-06"}),
+    ):
         r = call(name, args)
         assert "error" not in r, (name, r)
         assert r["source"]["owner"] and r["source"]["url"], name

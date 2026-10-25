@@ -39,6 +39,26 @@ answer that carries data, including a "not found", which is where attribution be
 - **Nothing moved on the wire but the annotations.** Every tool's name, description, `inputSchema`
   and `outputSchema` dumped through a real `fastmcp.Client` before and after: byte-identical.
 
+### Lint (#14, qso-graph-devel#70)
+
+- **`E501` is adopted.** It reported **27 lines** and not one was a defect — the finding, not an
+  argument against enforcing it.
+- **The exemption this issue was filed for is not needed.** The title says the publisher-name lines
+  are "explicitly exempt", and the deferral note in `pyproject.toml` said six such lines "will not
+  be reflowed at all". Measured: **four** lines name ADIF's `Primary_Administrative_Subdivision` or
+  `DXCC_Entity_Code`, and all four reflow with the field name whole — bind the subscript chain to a
+  name first and `subdivisions = pas["Adif"]["Enumerations"]["Primary_Administrative_Subdivision"]`
+  is 83 characters. **Zero exemptions**; there is no `# noqa: E501` in the repo. That prediction has
+  now failed in all three owner-list servers it was written about.
+- **Four tool descriptions change on the wire, in whitespace only.** `source_info`, `lookup`,
+  `codes_for` and `valid_on` had summary lines over 95 columns, and FastMCP publishes the docstring
+  as the description — so reflowing one reaches a client. Checked rather than assumed: with
+  whitespace normalised all four are identical, **no words changed**, and every `inputSchema`,
+  `outputSchema` and annotation block is byte-identical.
+- The server's `instructions` string came out **byte-identical**: it is a run of adjacent literals,
+  so splitting it at word boundaries changes the source and not the value.
+- Falsified: a long line planted in `src/` and another in `tests/`, both caught.
+
 ### Not applicable here
 
 - **No `certifi` work and no issue for it** (qso-graph-devel#73). Nothing in the package makes an

@@ -211,7 +211,8 @@ class TestValidityIsRealHere:
         # 01ALT — my error, not the code's. Collapsing them would make "no such DOK" and
         # "that DOK was not valid then" indistinguishable, which is a worse answer than
         # either. Pinned here because the simplification is tempting.
-        assert inside["found"] is True and outside["found"] is True, "the code exists either way"
+        assert inside["found"] is True, "the code exists inside its window"
+        assert outside["found"] is True, "and outside it: found is not valid"
         assert inside["records"][0]["valid"] is True, f"{code} on its own valid_from"
         assert outside["records"][0]["valid"] is False, f"{code} in 1970"
         assert _wire(_tools()["darc_dok_valid_on"])["idempotentHint"] is True
