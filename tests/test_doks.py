@@ -28,9 +28,25 @@ def published(name: str) -> Path:
 
 @cache
 def pdf_text() -> str:
+    """Spaces collapsed to one. Row *structure* is read from this, so the gaps matter."""
     with published("DOK-Liste.pdf").open("rb") as fh:
         text = " ".join(p.extract_text() or "" for p in PdfReader(fh).pages)
     return re.sub(r"\s+", " ", text)
+
+
+@cache
+def pdf_squashed() -> str:
+    """All whitespace removed, for asking whether a fact is *present*.
+
+    Where a space falls in a PDF's text layer is pypdf's heuristic, not a fact about
+    DOKs. pypdf 6.21.2 stopped emitting one after ";" and ")" in twelve places where
+    6.19.0 emitted it -- same PDF, byte-identical under SOURCE.json's SHA-256, same
+    data -- and the release of 0.2.1 was refused for it (run 40259819133). Ignoring
+    whitespace on both sides removes the dependency on that heuristic without
+    weakening what is checked. itu-zones-mcp reads the IARU handbook this way
+    already, for the same reason.
+    """
+    return re.sub(r"\s+", "", pdf_text())
 
 
 def doks():
@@ -47,12 +63,12 @@ def test_dok_list_rows():
 @pytest.mark.live
 def test_every_dok_row_is_in_darcs_pdf():
     """Each DOK and its club, district and remarks appear in the PDF's own text."""
-    text = pdf_text()
+    text = pdf_squashed()
     missing = []
     for r in doks():
         a = r["attributes"]
         for value in (r["code"], a["district"], a["club"], a["remarks"]):
-            if value and re.sub(r"\s+", " ", value) not in text:
+            if value and re.sub(r"\s+", "", value) not in text:
                 missing.append((r["code"], value))
     assert not missing, missing[:10]
 
