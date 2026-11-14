@@ -35,7 +35,7 @@ Issues = "https://github.com/qso-graph/darc-dok-mcp/issues"
 darc-dok-mcp = "darc_dok_mcp.server:main"
 
 [dependency-groups]
-dev = ["pytest>=8", "jsonschema>=4", "adif-mcp>=1.2", "pypdf>=5", "ruff>=0.6.8", "mypy>=1.11"]
+dev = ["pytest>=8", "jsonschema>=4", "adif-mcp>=2.2", "pypdf>=5", "ruff>=0.6.8", "mypy>=1.11"]
 
 [build-system]
 requires = ["hatchling"]

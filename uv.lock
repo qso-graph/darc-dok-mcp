@@ -11,15 +11,16 @@ resolution-markers = [
 
 [[package]]
 name = "adif-mcp"
-version = "2.0.0"
+version = "2.2.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiofiles" },
     { name = "fastmcp" },
+    { name = "qso-graph-lib" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c5/61/0258694ed33c61e64bb356a4125df9430fd318c266a95ca10fd49ce9010c/adif_mcp-2.0.0.tar.gz", hash = "sha256:6cb7f1ecd6379e2b0221492199b04a5a376c12cc12f6377cd283852707f2841c", size = 2843879, upload-time = "2026-10-12T07:43:01.94Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/c7/62/f964c7c519ae311a559cd705981677b2e290e8606d20dbdcc427693771b0/adif_mcp-2.2.0.tar.gz", hash = "sha256:e38ddb2dfcc5707ffe1fc0da3208b221fa94df22f01f20777530b72d1e5febca", size = 2867198, upload-time = "2026-11-14T07:20:41.175Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a7/f9/d785448b8daf4c19dd760d5abf04591811c9adbf43ccd588341bb9f60c97/adif_mcp-2.0.0-py3-none-any.whl", hash = "sha256:fb8ad449c51e8a65d94b3725e13bdaa8453c9e7f46fdac0fcd48dbdadd35aab7", size = 2839520, upload-time = "2026-10-12T07:42:59.541Z" },
+    { url = "https://files.pythonhosted.org/packages/61/ac/06ba60ca6559c4ecc977895a9fe10c1c68de19b4cd06a8f85ae6f71b522d/adif_mcp-2.2.0-py3-none-any.whl", hash = "sha256:3f18fdeb3311a4579334d6af398e457781a347c96501e7e4abe3321ad49a5542", size = 2847222, upload-time = "2026-11-14T07:20:39.309Z" },
 ]
 
 [[package]]
@@ -455,7 +456,7 @@ requires-dist = [{ name = "fastmcp", specifier = ">=4.0,<5" }]
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "adif-mcp", specifier = ">=1.2" },
+    { name = "adif-mcp", specifier = ">=2.2" },
     { name = "jsonschema", specifier = ">=4" },
     { name = "mypy", specifier = ">=1.11" },
     { name = "pypdf", specifier = ">=5" },
@@ -1469,6 +1470,15 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/da/92/1446574745d74df0c92e6aa4a7b0b3130706a4142b2d1a5869f2eaa423c6/pyyaml-6.0.3-cp314-cp314t-musllinux_1_2_x86_64.whl", hash = "sha256:16249ee61e95f858e83976573de0f5b2893b3677ba71c9dd36b9cf8be9ac6d65", size = 829923, upload-time = "2025-09-25T21:32:54.537Z" },
     { url = "https://files.pythonhosted.org/packages/f0/7a/1c7270340330e575b92f397352af856a8c06f230aa3e76f86b39d01b416a/pyyaml-6.0.3-cp314-cp314t-win_amd64.whl", hash = "sha256:4ad1906908f2f5ae4e5a8ddfce73c320c2a1429ec52eafd27138b7f1cbe341c9", size = 174062, upload-time = "2025-09-25T21:32:55.767Z" },
     { url = "https://files.pythonhosted.org/packages/f1/12/de94a39c2ef588c7e6455cfbe7343d3b2dc9d6b6b2f40c4c6565744c873d/pyyaml-6.0.3-cp314-cp314t-win_arm64.whl", hash = "sha256:ebc55a14a21cb14062aa4162f906cd962b28e2e9ea38f9b4391244cd8de4ae0b", size = 149341, upload-time = "2025-09-25T21:32:56.828Z" },
+]
+
+[[package]]
+name = "qso-graph-lib"
+version = "0.2.2"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/67/06/753cac1605f2d5a30240deeadaa454bbec4157bd0a38354e3dc5ece728f3/qso_graph_lib-0.2.2.tar.gz", hash = "sha256:a1a280f2f239cdf755b794bd9501845c7d307dc372142fa15615b213e2282c0b", size = 444085, upload-time = "2026-11-09T19:37:33Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/69/86/70df9f149ee784017afa5bd4b053734d6abcea7d7118a921e055d4e46073/qso_graph_lib-0.2.2-py3-none-any.whl", hash = "sha256:06ae38031eba2575a9b03c5b0716bddcc66e3d58061779b2500b9a9770aaec9b", size = 27661, upload-time = "2026-11-09T19:37:31.356Z" },
 ]
 
 [[package]]

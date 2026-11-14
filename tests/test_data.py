@@ -22,8 +22,8 @@ SOURCE = reference.source()
 
 @cache
 def adif() -> tuple[set[int], set[tuple[str, int]]]:
-    """ADIF 3.1.7's DXCC entity codes and (subdivision, entity) pairs, from adif-mcp's copy."""
-    spec = files("adif_mcp").joinpath("resources", "spec", "317")
+    """ADIF 3.1.8's DXCC entity codes and (subdivision, entity) pairs, from adif-mcp's copy."""
+    spec = files("adif_mcp").joinpath("resources", "spec", "318")
     ent_file = spec.joinpath("enumerations_dxcc_entity_code.json")
     pas_file = spec.joinpath("enumerations_primary_administrative_subdivision.json")
     ent = json.loads(ent_file.read_text(encoding="utf-8"))
