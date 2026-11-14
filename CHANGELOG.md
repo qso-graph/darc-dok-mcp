@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Checked against ADIF 3.1.8** (released 2026-10-12): the tests read adif-mcp 2.2's `spec/318`,
+  and `adif_version` in `SOURCE.json` and the generated `load.sql` is 3.1.8. 3.1.8's DXCC entity
+  codes and Primary_Administrative_Subdivision records are 3.1.7's, so no fact changes.
 
 
 - Licensed GPL-3.0-or-later, the same as every QSO Graph project.
